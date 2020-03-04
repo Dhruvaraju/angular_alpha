@@ -12,4 +12,22 @@ Learning log for angular
 - Includes lots of reusable code.
 - Make application more testable.
 
- > We do not need a framework like angular to create applications in javascript, but it will make them easier to build and test. 
+ > We do not need a framework like angular to create applications in javascript, but it will make them easier to build and test.
+ ### Architecture of angular applications:
+ - Front-End contains HTML, CSS, Javascript, Angular
+ - Back-End contains APIs, Databases.
+ - Maximum the data is not stored in the front-end or client side because it cannot be stored more than the time the customer is using the application. So data is stored in the database where data is fetched using HTTP apis.
+ ### Setting up Development Environment:
+ - Node.js installation is required to run angular. Download and install node from nodejs.org
+ - Node.js is chrome's javascript engine v8 embedded in c++ to run javascript outside a browser.
+ - After installation open command prompt and run command ``` node --version ``` to check if node is installed.
+ - Angular CLI (Command line interface) is used to create angular applications we need to install it from npm (node package manager)
+
+ ```
+ //Windows
+ npm install -g @angular/cli
+ //mac
+ sudo npm install -g @angular/cli
+ ```
+> **-g** is for installing angular globally, else it will install only for the current folder.
+- To check if angular cli is installed run the command ``` ng --version ```
