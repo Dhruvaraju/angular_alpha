@@ -34,4 +34,5 @@ Learning log for angular
 ### Creating a new app using angular cli:
 - Run the command ``` ng new <<Project-name>> ``` eg ``` ng new initial-test ```
 - It will take some time to complete the application creation, to start this app navigate to the folder in command prompt then run the command ``` ng serve ```
+- CLI compiles and packages the application for us with the above command
 - Generally this runs on http://localhost/4200
