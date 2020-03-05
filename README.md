@@ -36,3 +36,26 @@ Learning log for angular
 - It will take some time to complete the application creation, to start this app navigate to the folder in command prompt then run the command ``` ng serve ```
 - CLI compiles and packages the application for us with the above command
 - Generally this runs on http://localhost/4200
+### Project structure:
+- **e2e** folder is the one where all the end to end testing, testing which will be a simulation of the end user script will be present.
+- **node_modules** folder is the location where we store all the 3rd party libraries.These are required to run the application. This is  mainly for development, when we build the application parts of this are deployed. We will not be deploying this folder to server.
+- **src** is the folder in which actual source code resides.
+    - under src we have **app** folder which contains a module and a component, every project should have at least one module and one component. Each component has its own html, css and a type script file.
+    - **assets** static files are placed here like images.
+    - **environments** configuration settings for different environments are present here. One we will have for prod and one for development.
+    - **favicon.ico** is the icon displayed in the browser.
+    - **index.html** a simple html file that contains our application, all the components and styling references are dynamically added to this page.
+    - **main.ts** a typescript file, which is the starting point of our application. The main module of our application is bootstrapped in this file. It is like the main method in other languages, which is a starting point of our application. Here the starting point is app module.
+    - **polyfills.ts** which contains some scripts for running angular applications, because angular uses some of the functionality of javascript which are not available in the current version. So this fills the gap between the features that angular needs and features that are currently supported by angular.
+    - **styles.css** this is were we add the global styles for the application.
+    - **test.ts** which is used to setting up our test environment.
+- **angular.json** configuration file for angular
+- **.editorconfig** configuration for editor, if we are having multiple developers we need all the personal to use same editor config.
+- **.gitignore** to ignore files and folders from your git repository.
+- **karma.config.js** is a configuration for karma which is a test runner for javascript code.
+- **package.json** every node.js folder has this, contains the information about your project like version and name.
+    - __dependencies__ tag contains the libraries that our application is dependents upon. (like angular libraries), if we are using additional third party libraries we need to mention here.
+    - __devDependencies__ tag contains the development dependencies, these are not required in a production environment.
+- **protractor.js** to run end to end tests
+- **tsConfig.json** have bunch of configuration for the typescript compiler.
+- **tslint.json** is a configuration file for tslint which is a typescript static analysis tool checks for maintainability, readability, functionality errors.
