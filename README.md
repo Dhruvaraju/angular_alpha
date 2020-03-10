@@ -59,3 +59,41 @@ Learning log for angular
 - **protractor.js** to run end to end tests
 - **tsConfig.json** have bunch of configuration for the typescript compiler.
 - **tslint.json** is a configuration file for tslint which is a typescript static analysis tool checks for maintainability, readability, functionality errors.
+
+### Webpack:
+- Angular cli uses a build automation tool which compiles all the scripts, stylesheets in our app, bundles them and minify them.
+- Make a small change in your application, to see this in action, goto src >> app >> app.component.ts
+- update the string title to 'New App', Now the webpack will compile this and generate bundles.
+- **polyfills** which will gap the difference between the javascript version angular supports and the javascript version browser supports.
+- **styles** will package all the styles as javascript bundle.
+- **vendor** will have all the third party scripts as a bundle.
+- **hot module replacement (HMR)** is the web pack, which is making the source code changes reflect immediately without any application restart.
+
+### Angular History:
+- AngularJS was the initial version released in 2010
+- Angular2 was the next version which is a complete restructure of the frame work using type script.
+- Angular4 is made to generalize the versions and anything above angular2 is now considered as angular.
+
+### Typescript essentials:
+- A superscript of javascript, any valid javascript code is a typescript code. Typescript has additional features which JS do not have which are supported by browsers.
+- Few features we get using typescript are:
+    - Strong typing for variable definition like C#, Java to identify data types.
+    - Object oriented features.
+    - Will be able to catch many compile time errors.
+    - Many great tools available in market to work on typescript.
+- Typescript compiler **transpile** typescript code to javascript so browsers can understand it.
+
+#### Installing type script:
+- npm command ``` npm install -g typescript ``` in mac ``` sudo npm install -g typescript ```
+- To check if typescript is installed or not in cmd ``` tsc --version ``` will show typescript version installed.
+#### Create a typescript file:
+- name a file as main.ts add a function as below
+```
+function log(msg){
+    console.log(msg);
+}
+var message = 'Hello world';
+log(message);
+```
+- to compile this use command ``` tsc main.ts ```
+- a **.js** file will be created, now wew can run this with ``` node main.js ``` the program will be executed.
