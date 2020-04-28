@@ -56,17 +56,19 @@
 ## Setting up ngrx
 - NgRx provides schematics in conjunction with angular cli for generating ngrx boilerplate code.
 - ng generate can be used to create state, actions and reducers.
-- ```javascript npm install @ngrx/schematics --save-dev ``` installs the ngrx schematics
+```javascript npm install @ngrx/schematics --save-dev ``` 
+> installs the ngrx schematics
 - ngrx store and dev tools are also required, install them using the following commands
 ```javascript
 npm install @ngrx/store --save
 npm install @ngrx/store-devtools --save
 ```
+## Generating Store
 - Generating a default state, placing the same in root folder, updating app module can be done with ng generate as
 ```javascript
 ng generate @ngrx/schematics:store State --root --module app.module.ts
 ```
-- This will generate a new folder for state management called as reducers the initial state file will be as mentioned below
+- **Index.ts** file will be generated in reducers folder with the below code
 ```javascript
 import {
   ActionReducer,
@@ -85,7 +87,7 @@ export const reducers: ActionReducerMap<State> = {
 };
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
 ```
-- the update for the app.module.ts will be as below, which will be in imports
+- **app.module** will be updated in imports with the below entry:
 ```javascript
 StoreModule.forRoot(reducers, {
       metaReducers, 
@@ -96,5 +98,114 @@ StoreModule.forRoot(reducers, {
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : []
 ```
+## Generating reducer 
+- Use this to update state  of login details.
+```javascript ng generate @ngrx/schematics:reducer login --group ``` 
+> The group switch will group all the reducers in same folder
+- The generated reducer will look as below: **login.reducer.ts**
+```javascript
+import { Action, createReducer, on } from '@ngrx/store';
+export const loginFeatureKey = 'login';
+export interface State {
 
+}
+export const initialState: State = {
 
+};
+export const reducer = createReducer(
+  initialState,
+
+);
+```
+- This contains a state interface, initiate state and  empty reducer function
+- Add the values that need to be maintained in state interface and declare the initial value of them in initial state
+- For example storing the login validation result and user name
+```javascript
+export interface State {
+logInValidated : boolean;
+loggedInUser : String;
+}
+
+export const initialState: State = {
+logInValidated : null,
+loggedInUser : null
+};
+```
+## Creating actions
+- For generating the action use command ``` ng generate @ngrx/schematics:action logIn --group ```
+```javascript
+import { Action } from '@ngrx/store';
+export enum LogInActionTypes {
+  LoadLogIns = '[LogIn] Load LogIns', 
+}
+export class LoadLogIns implements Action {
+  readonly type = LogInActionTypes.LoadLogIns;
+}
+export type LogInActions = LoadLogIns;
+```
+- We can add the required actions now like addlogin removelogin.
+- The modified code is mentioned below
+```javascript
+import { Action } from '@ngrx/store';
+export enum LogInActionTypes {
+  AddLogIns = '[LogIn] Add LogIns',
+  RemoveLogIns = '[LogIn] Remove LogIns',
+}
+export class AddLogIns implements Action {
+  readonly type = LogInActionTypes.AddLogIns;
+  constructor(public valid: boolean, public userName: String){}
+}
+export class RemoveLogIns implements Action {
+  readonly type = LogInActionTypes.RemoveLogIns;
+  constructor(){}
+}
+export type LogInActions = AddLogIns | RemoveLogIns;
+```
+- adding reducer function to invoke the actions
+- We can change the reducer and login state names.
+```javascript
+export function reducer(state = initialState, action: LogInActions): State {
+  switch (action.type) {
+    case LogInActionTypes.AddLogIns:
+      {
+        return {...state, logInValidated : action.valid, loggedInUser: action.userName };
+      }
+    case LogInActionTypes.RemoveLogIns:
+      {
+        return {...state, logInValidated : null, loggedInUser: null };
+      }
+    default:
+      return state;
+  }
+}
+```
+- The updated names should be, added in the index.ts file
+
+```javascript
+export interface State {
+logins : loginState
+}
+export const reducers: ActionReducerMap<State> = {
+logins : loginReducer
+};
+```
+- For invoking store in the app, we need to use store as a service.
+- import state and store in the component you need to use 
+```javascript
+import { Store } from '@ngrx/store';
+import { State } from '../reducers';
+```
+- Add store as a input to the constructor ``` private store : Store<State> ```
+- we can use store to perform actions now as below
+```javascript
+this.store.dispatch(new AddLogIns(true, this.loginForm.get('userName').value));
+```
+- For Fetching values from store you can use it as below
+```javascript
+constructor(private store: Store<State>) { 
+    store.select(state => state).subscribe(details => {
+      console.log('Log in Validation: '+details.logins.logInValidated);
+      console.log('Logged in user: '+details.logins.loggedInUser);
+    })
+  }
+```
