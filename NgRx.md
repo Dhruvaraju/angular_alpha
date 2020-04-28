@@ -1,13 +1,12 @@
 ## What is state of an application?
 - The current instance of data displayed on an application is considered as the state of an app.
-- The user logged in, text boxes enabled, buttons enabled, Services invoked, services awaiting data.
-- above mentioned all can be considered as the state of the application.
+- The user logged in, text boxes enabled, buttons enabled, Services invoked, services awaiting data, these all can be considered as the state of the application.
 
 ## What is state management?
 - The way we handle state of an application.
-- While fetching data, do we have to get it from cache or get it from backend services all the time ?
-- How do we show if current state if user opens app in a new browser, shall we authenticate user again?
-- How to behave if the user opens the app in a new tab?
+- While fetching data, do we have to get it from cache or get it from backend services?
+- How do handle data if user opens app in a new browser, shall we authenticate user again?
+- How to handle data if the user opens the app in a new tab?
 
 ## What does state management provides?
 - State management gives us a common architecture, a simple pattern to follow along, with some rules that we can use everywhere, so we can manage the state of our application easily.
@@ -29,7 +28,7 @@
 - Every single piece of data in an application.
 - Data rendered on the screen
 - Configuration / Session / user preferences data.
-- I a user updates some of the details in a machine and logs to another machine they should be able to see all the changes made on the previous machine.
+- If a user updates some of the details in a machine and logs to another machine they should be able to see all the changes made on the previous machine.
 - State is single point of truth. An object tree that represents all of the data.
 - State is readonly, which can be changed by dispatching actions.
 - Eg: when you have an application with multiple tabs, on clicking a certain tab and opening the application in new browser tab,the application  should display the tab that was selected earlier.
@@ -53,3 +52,6 @@
   - The central object where everything happens.
   - Store is used to change state, Store is used to subscribe to state updates.
   > NgRx has own store implementation, which uses RxJs so we can use observables and operators.
+
+
+
