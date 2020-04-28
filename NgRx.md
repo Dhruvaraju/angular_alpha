@@ -56,11 +56,45 @@
 ## Setting up ngrx
 - NgRx provides schematics in conjunction with angular cli for generating ngrx boilerplate code.
 - ng generate can be used to create state, actions and reducers.
-- ``` npm install @ngrx/schematics --save-dev ``` installs the ngrx schematics
+- ```javascript npm install @ngrx/schematics --save-dev ``` installs the ngrx schematics
 - ngrx store and dev tools are also required, install them using the following commands
-``` 
+```javascript
 npm install @ngrx/store --save
 npm install @ngrx/store-devtools --save
+```
+- Generating a default state, placing the same in root folder, updating app module can be done with ng generate as
+```javascript
+ng generate @ngrx/schematics:store State --root --module app.module.ts
+```
+- This will generate a new folder for state management called as reducers the initial state file will be as mentioned below
+```javascript
+import {
+  ActionReducer,
+  ActionReducerMap,
+  createFeatureSelector,
+  createSelector,
+  MetaReducer
+} from '@ngrx/store';
+import { environment } from '../../environments/environment';
+export interface State {
+
+}
+
+export const reducers: ActionReducerMap<State> = {
+
+};
+export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+```
+- the update for the app.module.ts will be as below, which will be in imports
+```javascript
+StoreModule.forRoot(reducers, {
+      metaReducers, 
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      }
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
 ```
 
 
