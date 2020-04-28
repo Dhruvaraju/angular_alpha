@@ -53,5 +53,14 @@
   - Store is used to change state, Store is used to subscribe to state updates.
   > NgRx has own store implementation, which uses RxJs so we can use observables and operators.
 
+## Setting up ngrx
+- NgRx provides schematics in conjunction with angular cli for generating ngrx boilerplate code.
+- ng generate can be used to create state, actions and reducers.
+- ``` npm install @ngrx/schematics --save-dev ``` installs the ngrx schematics
+- ngrx store and dev tools are also required, install them using the following commands
+``` 
+npm install @ngrx/store --save
+npm install @ngrx/store-devtools --save
+```
 
 
