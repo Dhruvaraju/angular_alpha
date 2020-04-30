@@ -209,3 +209,120 @@ constructor(private store: Store<State>) {
     })
   }
 ```
+
+## Effects
+- Asynchronous way to perform tasks in NgRx. The sequence of operations will be like an action is triggered => which will trigger effect => a new action will be triggered once action completes
+- For installing effects: ``` npm install @ngrx/effects --save ```
+- For generating effects: ``` ng generate @ngrx/schematics:effect <<Effect-Name>> --module app.module --group ```
+```javascript
+//Example Code:
+//Reducer
+import {CurrentConditionsActions, CurrentConditionsActionTypes} from '../actions/current-conditions.actions';
+export interface CurrentConditionsState {
+    currentConditions: Map<string, any>;
+}
+export const initialState: CurrentConditionsState = {
+    currentConditions: new Map()
+};
+export function currentConditionsReducer(state = initialState, action: CurrentConditionsActions): CurrentConditionsState {
+    switch (action.type) {
+        case CurrentConditionsActionTypes.CurrentConditionsLoaded:
+            const cc = new Map(state.currentConditions);
+            cc.set(action.zipcode, action.conditions);
+            return {...state, currentConditions: cc};
+        default:
+            return state;
+    }
+}
+//Actions
+import { Action } from '@ngrx/store';
+export enum CurrentConditionsActionTypes {
+    CurrentConditionsLoaded = '[CurrentConditions] CurrentConditions Loaded',
+    CurrentConditionsLoadFailed = '[CurrentConditions] CurrentConditions Load Failded'
+}
+export class CurrentConditionsLoaded implements Action {
+    readonly type = CurrentConditionsActionTypes.CurrentConditionsLoaded;
+
+    constructor(public zipcode: string, public conditions: any){}
+}
+export class CurrentConditionsLoadFailed implements Action {
+    readonly type = CurrentConditionsActionTypes.CurrentConditionsLoadFailed;
+
+    constructor(public zipcode: string, public error: any){}
+}
+export type CurrentConditionsActions = CurrentConditionsLoaded | CurrentConditionsLoadFailed;
+//Effect
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import {Observable, of} from 'rxjs';
+import {mergeMap, catchError, map} from 'rxjs/operators';
+import {AddZipcode, ZipcodeActionTypes} from '../actions/zipcode.actions';
+import {WeatherService} from '../weather.service';
+import {CurrentConditionsLoaded, CurrentConditionsLoadFailed} from '../actions/current-conditions.actions';
+@Injectable()
+export class CurrentConditionsEffects {
+    @Effect()
+    loadCurrentConditions$: Observable<any> = this.actions$.pipe(
+        ofType(ZipcodeActionTypes.AddZipcode),
+        mergeMap(action =>
+            this.weatherService.loadCurrentConditions(action['zipcode']).pipe(
+                // If successful, dispatch success action with result
+                map(data => new CurrentConditionsLoaded(action['zipcode'], data)),
+                // If request fails, dispatch failed action
+                catchError((err) => of(new CurrentConditionsLoadFailed(action['zipcode'], err)))
+            )
+        )
+    );
+    constructor(private actions$: Actions<AddZipcode>, private weatherService: WeatherService) {}
+}
+//Consuming Effect
+store.select(state => state.currentConditions)
+            .subscribe(conditions => this.currentConditions = conditions.currentConditions);
+```
+## Debugging using devtools
+- redux devtools are available as extension for many browsers, Search term: **Redux Devtools**
+- With redux devtools we can visually see the state of the application, either in a chart or tree.
+
+## Selector
+- Every time we use selector it will be doing an expensive operation of querying the entire state object.
+- **CreateSelector** can be used to target a specific piece of the state so we will not be querying the entire state.
+```javascript
+export const selectZipcodeState = (state: State) => state.zipcodes;
+export const selectZipcodeList = createSelector(selectZipcodeState, (state: ZipcodeState) => state.zipcodes);
+export const selectCurrentConditionsState = (state: State) => state.currentConditions;
+export const selectCurrentConditionsList = createSelector(selectCurrentConditionsState, (state: CurrentConditionsState) => state.currentConditions);
+
+//while calling selectZipcodeList we will get the last cached value of the attribute zipcodes in state.
+// if the value is  updated then we will get the updated value similar for selectCurrentConditionsList
+```
+## NgRx router store:
+- Install router store using ``` npm install @ngrx/router-store --save ```
+- To use router we need to add the router in state of index.js  ``` router: RouterReducerState ```
+- Add corresponding reducer function also. ``` router: routerReducer ```
+- these both are available in ``` import {routerReducer, RouterReducerState} from '@ngrx/router-store'; ```
+- declare the router store in app module ```StoreRouterConnectingModule.forRoot({stateKey: 'router'}) ``` in imports.
+
+```javascript
+//Reducer entries will look like below
+export interface State {
+  router: RouterReducerState
+}
+export const reducers: ActionReducerMap<State> = {
+  router: routerReducer
+};
+```
+- NgRx router store has 3 actions in it:
+  - ROUTER_NAVIGATION invoked when a route navigation is done, before running any code
+  - ROUTER_CANCEL when a route guard cancels the navigation to route
+  - ROUTER_ERROR when an error occurs like navigating to a non existing route.
+- Additional details on routing can be found in NgRx documentation.
+
+## Generating and using entities
+- To create entity use ``` ng generate @ngrx/schematics:entity <<entity-name>> --group ```
+- Entities will generate all the boiler plate code so we can concentrate on the business logic.
+- when we generate entity for user, it will create the reducers and actions for us.
+
+## Component Architecture using NgRx
+- Angular embraces reactive programming, in which components react to external changes, there are 2 types of components.
+  - Container Components : Consumes services and works with data.
+  - Presentational Components: Have to be feed with data, this will generally emit events.
