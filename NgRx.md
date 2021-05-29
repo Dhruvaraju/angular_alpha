@@ -56,13 +56,21 @@
 ## Setting up ngrx
 - NgRx provides schematics in conjunction with angular cli for generating ngrx boilerplate code.
 - ng generate can be used to create state, actions and reducers.
-```javascript npm install @ngrx/schematics --save-dev ``` 
+``` npm install @ngrx/schematics --save-dev ``` 
 > installs the ngrx schematics
 - ngrx store and dev tools are also required, install them using the following commands
-```javascript
+```
 npm install @ngrx/store --save
 npm install @ngrx/store-devtools --save
 ```
+
+> you will face issues with latest angular vesrsion use the below commands
+
+```
+npm install @ngrx/store@latest --legacy-peer-deps  
+npm install @ngrx/store-devtools  --legacy-peer-deps
+```
+
 ## Generating Store
 - Generating a default state, placing the same in root folder, updating app module can be done with ng generate as
 ```javascript
