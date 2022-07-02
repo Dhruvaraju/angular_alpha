@@ -14,7 +14,7 @@
     "@angular/animations": "~9.0.3",
     "@angular/common": "~9.0.3",
     "@angular/compiler": "~9.0.3",
-    "@angular/core": "~9.0.3",
+    "@angular/core": "~11.0.5",
     "@angular/forms": "~9.0.3",
     "@angular/platform-browser": "~9.0.3",
     "@angular/platform-browser-dynamic": "~9.0.3",
@@ -22,7 +22,7 @@
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2",
-    "minimist": "1.2.3"
+    "minimist": "1.2.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.900.4",
@@ -35,7 +35,7 @@
     "codelyzer": "^5.1.2",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~4.3.0",
+    "karma": "~6.3.14",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage-istanbul-reporter": "~2.1.0",
     "karma-jasmine": "~2.0.1",
