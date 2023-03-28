@@ -1,3 +1,19 @@
+- [Angular\_alpha](#angular_alpha)
+    - [What is Angular?](#what-is-angular)
+    - [Why do we need angular?](#why-do-we-need-angular)
+    - [Benefits of angular:](#benefits-of-angular)
+    - [Architecture of angular applications:](#architecture-of-angular-applications)
+    - [Setting up Development Environment:](#setting-up-development-environment)
+    - [Creating a new app using angular cli:](#creating-a-new-app-using-angular-cli)
+    - [Project structure:](#project-structure)
+    - [Webpack:](#webpack)
+    - [Angular History:](#angular-history)
+    - [Typescript essentials:](#typescript-essentials)
+      - [Installing type script:](#installing-type-script)
+      - [Create a typescript file:](#create-a-typescript-file)
+      - [Declaring variables](#declaring-variables)
+      - [Variable types in typescript](#variable-types-in-typescript)
+
 # Angular_alpha
 Learning log for angular
 
@@ -97,3 +113,33 @@ log(message);
 ```
 - to compile this use command ``` tsc main.ts ```
 - a **.js** file will be created, now wew can run this with ``` node main.js ``` the program will be executed.
+#### Declaring variables
+- Variables can be declared using the key words Let or var
+- Using var will make the variable in the scope of a function
+- let keyword allows us to use object oriented programming by generating compile time errors.
+```javascript
+function varTypes(){
+    for(let i = 0; i < 10 ; i++){
+        console.log(i);
+    }
+    console.log("Value of i is "+i); //i will not be accessible as we used let
+}
+varTypes();
+//Even though the IDE identifies this issue still the Typescript compiler generates the file
+```
+> Typescript compiler generate will highlight the errors on compile time but still generates the JS file.
+#### Variable types in typescript
+- Type of variable can be declared in type script by using the let key word
+- Enums can also be used in typescript
+```javascript
+let testNumber : number = 2;
+let testString : string = 'This is a string';
+let testBoolean : boolean = true;
+let testAny : any = '23fafd' ; // any will let the variable act like var keyword
+let testNumArray : number[] = [1,2,3,4,5];
+let testStringArray : string[] = ['Hi','testArray'];
+
+enum Colour { red = 'col1', yellow = 'col2'}
+
+let colourSelection : string = Colour.red;
+```
