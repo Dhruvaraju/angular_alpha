@@ -44,6 +44,8 @@ Learning log for angular
  npm install -g @angular/cli
  //mac
  sudo npm install -g @angular/cli
+
+// use @angular/cli@latest to install the latest cli version, it is not mandatory to add it
  ```
 > **-g** is for installing angular globally, else it will install only for the current folder.
 - To check if angular cli is installed run the command ``` ng --version ```
